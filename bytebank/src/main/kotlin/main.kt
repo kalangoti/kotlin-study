@@ -12,7 +12,12 @@ fun main() {
     println("Número da Conta $numeroConta")
     println("Saldo da conta $saldo")
 
+//    testConditions(saldo)
+}
+
+fun testConditions(saldo: Double) {
     // KOTLIN - Conditions and loops: https://kotlinlang.org/docs/control-flow.html
+
     if (saldo > 0.0) {
         println("conta é positiva")
     } else if (saldo == 0.0) {
