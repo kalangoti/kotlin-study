@@ -2,15 +2,131 @@ fun main() {
     println("Hello world into Bytebank")
 
     // KOTLIN - Conditions and loops: https://kotlinlang.org/docs/control-flow.html
-    // Kotlin for Python developers: https://khan.github.io/kotlin-for-python-developers/#loops
+    // KOTLIN for Python developers: https://khan.github.io/kotlin-for-python-developers/#loops
+    // KOTLIN - Delegated properties: https://kotlinlang.org/docs/properties.html#declaring-properties
+    // KOTLIN - Constructors AND initializer blocks: https://kotlinlang.org/docs/classes.html#constructors
+    // KOTLIN - Coding conventions: https://kotlinlang.org/docs/coding-conventions.html
 
+    val contaAlex = Conta(titular = "Alex", numero = 1000)
+    contaAlex.depositar(200.0)
+
+    val contaFran = Conta(numero = 1001, titular = "Fran")
+    contaFran.depositar(300.0)
+
+    println(contaFran.titular)
+    println(contaFran.numero)
+    println(contaFran.saldo)
+
+    println(contaAlex.titular)
+    println(contaAlex.numero)
+    println(contaAlex.saldo)
+
+    println("depositando 50 na conta do Alex")
+    contaAlex.depositar(50.0)
+    println(contaAlex.saldo)
+
+    println("depositando 70 na conta da Fran")
+    contaFran.depositar(70.0)
+    println(contaFran.saldo)
+
+    println("sacando 250 na conta do Alex")
+    contaAlex.sacar(250.0)
+    println(contaAlex.saldo)
+
+    println("sacando 100 na conta da Fran")
+    contaFran.sacar(100.0)
+    println(contaFran.saldo)
+
+    println("saque em excesso na conta do Alex")
+    contaAlex.sacar(100.0)
+    println(contaAlex.saldo)
+
+    println("saque em excesso na conta da Fran")
+    contaFran.sacar(500.0)
+    println(contaFran.saldo)
+
+    println("Transferência da conta da Fran para o Alex")
+
+    if (contaFran.transferir(value = 300.0, contaDestino = contaAlex)) {
+        println("Transferência sucedida")
+    } else {
+        println("Falha na transferência")
+    }
+
+    println(contaAlex.saldo)
+    println(contaFran.saldo)
 }
 
-class Conta() {
-    val titular: String = ""
+class Conta(
+    var titular: String,
     val numero: Int = 0
-    val saldo: Double = 0.0
+) {
 
+//    constructor(titular: String, numero: Int) {
+//        this.titular = titular
+//        this.numero = numero
+//    }
+
+    var saldo: Double = 0.0
+        private set
+//        set(value) {
+//            if (value > 0) {
+//                field = value
+//            }
+//        }
+
+    fun depositar(value: Double) {
+        if (value > 0) {
+            this.saldo += value
+        }
+    }
+
+    fun sacar(value: Double) {
+        if (saldo >= value) {
+            this.saldo -= value
+        }
+    }
+
+    fun transferir(value: Double, contaDestino: Conta): Boolean {
+        if (saldo >= value) {
+            this.saldo -= value
+            contaDestino.depositar(value)
+            return true
+        }
+        return false
+    }
+
+//    fun getSaldo(): Double {
+//        return this.saldo
+//    }
+//
+//    fun setSaldo(value: Double) {
+//        if (value > 0) {
+//            this.saldo = value
+//        }
+//    }
+}
+
+fun testCopyObject() {
+    val contaJoao = Conta("Joao", 1000)
+    contaJoao.depositar(200.0)
+
+    val contaMaria = contaJoao
+    contaMaria.titular = "Maria"
+    contaJoao.titular = "Pedro"
+
+    println("contaJoao ${contaJoao.titular}")
+    println("contaMaria ${contaMaria.titular}")
+    testVariablePrimitive()
+}
+
+fun testVariablePrimitive() {
+    val numberX = 10
+    var numberY = numberX
+    numberY++
+
+    println("numberX $numberX")
+    println("numberY $numberY")
 }
 
 fun testConditions(saldo: Double) {
